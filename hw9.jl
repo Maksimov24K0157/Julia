@@ -5,8 +5,8 @@
 #маркер
 using HorizonSideRobots
 function chessboard!(robot)
-    num_steps_West = do_predela(robot, West, n)
-    num_steps_Sud = do_predela(robot, Sud, n)
+    num_steps_West = do_predela!(robot, West)
+    num_steps_Sud = do_predela!(robot, Sud)
     n = (num_steps_Sud + num_steps_West) % 2
     chess!(robot, n)
     do_predela!(robot, Sud)
@@ -33,7 +33,7 @@ end
 function chess!(robot, chet)
     p = chet
     s = Ost
-    while True
+    while true
         p = chess_row!(robot, s, p)
         s = inverse!(s)
         if isborder(robot, Nord)
@@ -59,4 +59,4 @@ function chess_row!(robot, side, chet)
     return k
 end
 
-inverse(side::HorizonSide) = HorizonSide((Int(side) + 2) % 4)
+inverse!(side::HorizonSide) = HorizonSide((Int(side) + 2) % 4)
