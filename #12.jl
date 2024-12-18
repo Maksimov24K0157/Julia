@@ -11,6 +11,8 @@ end
 cr=CheckRobot(robot, false, false)
 
 function count_boarders!(robot::CheckRobot)
+    robot.f = false
+    robot.f_ch = false
     num_steps_West=do_predela!(robot.robot, West)
     num_steps_Sud=do_predela!(robot.robot, Sud)
     n = podschet!(robot)
@@ -42,7 +44,7 @@ function podschet!(robot)
     while true
         n+=p_line(robot, s)
         s=inverse(s)
-        isborder(robot.robot, Nord)&& return n-1
+        isborder(robot.robot, Nord) && return n-1
         move!(robot.robot, Nord)
     end
 end
@@ -57,7 +59,10 @@ function p_line(robot, side)
     while true
         move!(robot.robot, side)
         if isborder(robot.robot, Nord)
-            !robot.f && (n+=1)
+            if !robot.f
+                n+=1
+                putmarker!(robot.robot)
+            end
             robot.f = true
             robot.f_ch = true
         else
