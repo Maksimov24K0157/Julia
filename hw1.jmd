@@ -2,7 +2,7 @@ using HorizonSideRobots
 function cross!(robot)#1.робот идет до края и ставит кресты. запоминает шаги 2. робот разворачивается и идет в обратное направление на записанное число шагов
     for side in (Nord, Ost, Sud, West)
         num_steps = mark_direct!(robot, side)#идет до края, ставит точки, запоминает шаги
-        side = inverse!(side)#разворот
+        side = inverse(side)#разворот
         move!(robot, side, num_steps)#модификация изначальной функции, чтобы шел на фиксированное колличество шагов
     end
 end
