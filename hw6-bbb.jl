@@ -8,7 +8,7 @@
 #напротив исходного положения робота.
 
 #Задание ббб
-
+using HorizonSideRobots
 function positions!(robot)
     W_list = []
     N_list = []
