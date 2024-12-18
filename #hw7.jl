@@ -1,11 +1,12 @@
 #hw7
 using HorizonSideRobots
+robot=Robot(animate=true)
 
 function find_way(robot, side)
     s = HorizonSide((Int(side) + 1) % 4)
     num_steps = 1
     while isborder(robot, side)
-        move!(robot, side, num_steps)
+        move!(robot, s, num_steps)
         s = inverse(s)
         num_steps += 1
     end
