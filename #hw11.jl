@@ -1,7 +1,8 @@
 #hw11
+#hw11
 using HorizonSideRobots
 
-r = Robot(animate=true)
+robot = Robot(animate=true)
 
 mutable struct CheckRobot
     robot::Robot
@@ -11,8 +12,8 @@ end
 cr = CheckRobot(robot, false)
 
 function countboarders!(robot)
-    num_steps_West = movetoend!(robot, West)
-    num_steps_Sud = movetoend!(robot, Sud)
+    num_steps_West = movetoend!(robot.robot, West)
+    num_steps_Sud = movetoend!(robot.robot, Sud)
     n = count!(robot)
     movetoend!(robot, West)
     movetoend!(robot, Sud)
@@ -27,14 +28,14 @@ function HorizonSideRobots.move!(robot, side, num_steps)
     end
 end
 
-function HorizonSideRobots.move!(robot, side)
+function HorizonSideRobots.move!(robot::CheckRobot, side)
     move!(robot.robot, side)
     if !isborder(robot.robot, Nord)
         robot.f || return 0
         robot.f = false
         return 1
     end
-    fobot.f = true
+    robot.f = true
     return 0
 end
 
@@ -46,6 +47,15 @@ function movetoend!(robot, side)
     return n
 end
 
+function movetoend!(robot::Robot, side)
+    n = 0
+    while !isborder(robot, side)
+        move!(robot, side)
+        n+=1
+    end
+    return n
+end
+
 inverse(side) = HorizonSide((Int(side) + 2) % 4)
 
 function count!(robot)
@@ -53,7 +63,7 @@ function count!(robot)
     n = 0
     while !(isborder(robot.robot, Nord) && (isborder(robot.robot, Ost) || isborder(robot.robot, West)))
         n += movetoend!(robot, s)
-        move!(robot, Nord)
+        move!(robot.robot, Nord)
         s = inverse(s)
     end
     n += movetoend!(robot, s)
